@@ -2,23 +2,42 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/vaishnavi-shetty1401/CI-CD-Pipeline-Design-and-Implementation-for-a-web-application'
+                // Jenkins will automatically pull from SCM (GitHub)
+                echo 'Checking out code from GitHub...'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo 'Building the application...'
+                sh 'echo Build completed'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                echo 'Running tests...'
+                sh 'echo Tests completed'
             }
+        }
+
+        stage('Package') {
+            steps {
+                echo 'Packaging application...'
+                sh 'echo Package created'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline SUCCESS ✅'
+        }
+        failure {
+            echo 'Pipeline FAILED ❌'
         }
     }
 }
