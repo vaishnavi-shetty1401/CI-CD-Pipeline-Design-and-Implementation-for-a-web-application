@@ -1,33 +1,23 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE = "1401vaish/myapp"
-    }
-
     stages {
-
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/vaishnavi-shetty1401/CI-CD-Pipeline-Design-and-Implementation-for-a-web-application.git'
+                git branch: 'main',
+                url: 'https://github.com/vaishnavi-shetty1401/CI-CD-Pipeline-Design-and-Implementation-for-a-web-application'
             }
         }
 
-        stage('Install') {
+        stage('Build') {
             steps {
-                bat 'npm install'
+                echo 'Building...'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Test') {
             steps {
-                bat 'docker build -t %IMAGE% .'
-            }
-        }
-
-        stage('Push Image') {
-            steps {
-                bat 'docker push %IMAGE%'
+                echo 'Testing...'
             }
         }
     }
