@@ -5,7 +5,6 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                // Jenkins will automatically pull from SCM (GitHub)
                 echo 'Checking out code from GitHub...'
             }
         }
@@ -13,28 +12,37 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh 'echo Build completed'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'echo Tests completed'
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                sh 'docker run --rm aquasec/trivy image alpine:latest'
+            }
+        }
+
+        stage('Code Quality') {
+            steps {
+                echo 'SonarQube scan (simulated)'
             }
         }
 
         stage('Package') {
             steps {
                 echo 'Packaging application...'
-                sh 'echo Package created'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline SUCCESS ✅'
+            echo 'Pipeline SUCCESS ✔'
         }
         failure {
             echo 'Pipeline FAILED ❌'
