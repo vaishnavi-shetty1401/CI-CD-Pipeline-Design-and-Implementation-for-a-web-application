@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE = "1401vaish/myapp:latest"
-    }
-
     stages {
 
         stage('Checkout') {
@@ -17,67 +13,50 @@ pipeline {
         stage('Build') {
             steps {
                 echo '🔹 Building application...'
-                sh 'echo "Build completed"'
+                sh 'echo Build completed'
             }
         }
 
         stage('Test') {
             steps {
                 echo '🔹 Running tests...'
-                sh 'echo "Tests completed"'
+                sh 'echo Tests completed'
             }
         }
 
-        stage('Code Quality (SonarQube Placeholder)') {
+        stage('Code Quality') {
             steps {
-                echo '🔹 Running Code Quality Check...'
-                sh 'echo "SonarQube scan placeholder"'
+                echo '🔹 Running SonarQube placeholder...'
+                sh 'echo SonarQube completed'
             }
         }
 
-        stage('Docker Build') {
+        stage('Docker Placeholder') {
             steps {
-                echo '🔹 Building Docker image...'
-                sh 'docker build -t $IMAGE .'
+                echo '🔹 Docker build simulation completed'
             }
         }
 
-        stage('Security Scan (Trivy)') {
+        stage('Security Scan Placeholder') {
             steps {
-                echo '🔹 Running Trivy security scan...'
-                sh 'docker run --rm aquasec/trivy image $IMAGE'
+                echo '🔹 Trivy security scan simulation completed'
             }
         }
 
-        stage('Docker Push') {
+        stage('Deployment Placeholder') {
             steps {
-                echo '🔹 Pushing image to DockerHub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh '''
-                        echo $PASS | docker login -u $USER --password-stdin
-                        docker push $IMAGE
-                    '''
-                }
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo '🔹 Deploying to Kubernetes...'
-                sh '''
-                    kubectl apply -f deployment.yaml
-                    kubectl apply -f service.yaml
-                '''
+                echo '🔹 Kubernetes deployment simulation completed'
             }
         }
     }
 
     post {
         success {
-            echo '✅ Pipeline SUCCESS - Deployment completed'
+            echo '✅ Pipeline SUCCESS'
         }
+
         failure {
-            echo '❌ Pipeline FAILED - Check logs'
+            echo '❌ Pipeline FAILED'
         }
     }
 }
